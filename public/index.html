@@ -13,11 +13,13 @@
         let Application = PIXI.Application,
             loader = PIXI.loader,
             resources = PIXI.loader.resources,
-            Sprite = PIXI.Sprite
+            Sprite = PIXI.Sprite,
+            TextureCache = PIXI.TextureCache,
+            Rectangle = PIXI.Rectangle
         //create pixi application
         let app = new PIXI.Application({ 
-            width: 256, 
-            height: 256,
+            width: 500, 
+            height: 500,
             antialias: true,
             transparent: false,
             resolution: 1
@@ -30,7 +32,7 @@
         document.body.appendChild(app.view)
 
         loader
-            .add(["images/pacmanGhost.png"])
+            .add(["images/pacmanGhost.png","images/09.png"])
             .on("progress", loadProgressHandler)
             .load(setup)
         
@@ -45,12 +47,22 @@
         function setup() {
             console.log("setup")
             let ghost = new Sprite(resources["images/pacmanGhost.png"].texture)
-            app.stage.addChild(ghost)
+  
+            let texture = TextureCache["images/09.png"]
+            let rectangle = new Rectangle(96,64,32,32)
+            texture.frame = rectangle
+
+            let rocket = new Sprite(texture)
+            rocket.position.set(150, 150)
+            app.stage.addChild(rocket)
             //move sprite
-            ghost.position.set(90,90)
+            //ghost.position.set(90,90)
+            
             //change sprite size
-            ghost.scale.set(0.25,0.25)
-            ghost.anchor.set(0.5,0.5)
+            //ghost.scale.set(0.25,0.25)
+            //ghost.anchor.set(0.5,0.5)
+
+            app.renderer.render(app.stage);
         }
         </script>
 </body>
